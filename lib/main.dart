@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 
 void main() {
-  runApp(ExampleApp());
+  runApp(
+      ExampleApp(),
+  );
 }
 
 class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fortune Wheel Example',
+      title: 'Fortune Wheel Demo',
+      debugShowCheckedModeBanner: false,
       home: ExamplePage(),
     );
   }
@@ -30,7 +33,6 @@ class _ExamplePageState extends State<ExamplePage> {
 
   @override
   void initState() {
-    // selected.close();
     super.initState();
   }
 
@@ -48,14 +50,14 @@ class _ExamplePageState extends State<ExamplePage> {
     final iconSize = screenWidth * 0.07;
 
     final items = <String>[
-      'Prize 1',
-      'Prize 2',
-      'Prize 3',
-      'Prize 4',
-      'Prize 5',
-      'Prize 6',
-      'Prize 7',
-      'Prize 8',
+      '1GB',
+      '2GB',
+      '4GB',
+      '8GB',
+      '120 min',
+      '180 min',
+      '240 min',
+      '25GB\n600 min',
     ];
 
     final prizeIcons = <Icon>[
@@ -128,6 +130,11 @@ class _ExamplePageState extends State<ExamplePage> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
           ),
+          // Container(
+          //     height: MediaQuery.of(context).size.height,
+          //     width: MediaQuery.of(context).size.width,
+          //   color: Colors.blue[100],
+          // ),
           Center(
             child: Container(
               height: screenHeight * 0.8,
@@ -138,6 +145,13 @@ class _ExamplePageState extends State<ExamplePage> {
                   children: [
                     Expanded(
                       child: FortuneWheel(
+                        physics: CircularPanPhysics(
+                          duration: Duration(seconds: 1),
+                          curve: Curves.decelerate,
+                        ),
+                        onFling: () {
+                          //
+                        },
                         selected: selected.stream,
                         onAnimationStart: () {
                           setState(() {
@@ -149,37 +163,251 @@ class _ExamplePageState extends State<ExamplePage> {
                             isResultVisible = true;
                           });
                         },
+                        indicators: [
+                          FortuneIndicator(
+                            alignment: Alignment.topCenter,
+                            child: TriangleIndicator(color: Colors.blueGrey,),
+                          ),
+                        ],
                         items: [
-                          for (var it in items)
-                            FortuneItem(
-                                child: Container(
-                                    child: RotatedBox(
+                          FortuneItem(
+                            child: RotatedBox(
                               quarterTurns: 1,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  // SizedBox(
-                                  //   height: screenHeight * 0.02,
-                                  // ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top : screenHeight * 0.01,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        top : screenHeight * 0.05,
                                         bottom : screenHeight * 0.01,
                                         left : screenWidth * 0.04,
                                         right : screenWidth * 0.04,
+                                      ),
+                                      child: prizeIcons[0],
                                     ),
-                                    child: prizeIcons[items.indexOf(it)],
+                                    Text(items[0]),
+                                  ],
+                                ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.cyan[300], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[1],
                                   ),
-                                  SizedBox(
-                                    height: screenHeight * 0.01,
-                                  ),
-                                  Text(it, style: TextStyle(color: Colors.white, fontSize: 12),),
-                                  SizedBox(
-                                    height: screenHeight * 0.02,
-                                  ),
+                                  Text(items[1]),
                                 ],
                               ),
-                            ))),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.red[200], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[2],
+                                  ),
+                                  Text(items[2]),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.amber[300], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[3],
+                                  ),
+                                  Text(items[3]),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.blue[200], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[4],
+                                  ),
+                                  Text(items[4]),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.red[500], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[5],
+                                  ),
+                                  Text(items[5]),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.yellow[600], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[6],
+                                  ),
+                                  Text(items[6]),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.green[700], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          FortuneItem(
+                            child: RotatedBox(
+                                quarterTurns: 1,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top : screenHeight * 0.05,
+                                      bottom : screenHeight * 0.01,
+                                      left : screenWidth * 0.04,
+                                      right : screenWidth * 0.04,
+                                    ),
+                                    child: prizeIcons[7],
+                                  ),
+                                  Text(items[7],),
+                                ],
+                              ),
+                            ),
+                            style: FortuneItemStyle(
+                              textAlign: TextAlign.center,
+                              textStyle: TextStyle(color: Colors.white, fontSize: 12),
+                              color: Colors.purple[800], // <-- custom circle slice fill color
+                              borderColor: Colors.blue[900], // <-- custom circle slice stroke color
+                              borderWidth: 1, // <-- custom circle slice stroke width
+                            ),
+                          ),
+                          // for (var it in items)
+                          //   FortuneItem(
+                          //       child: Container(
+                          //           child: RotatedBox(
+                          //     quarterTurns: 1,
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.start,
+                          //       children: [
+                          //         // SizedBox(
+                          //         //   height: screenHeight * 0.02,
+                          //         // ),
+                          //         Padding(
+                          //           padding: EdgeInsets.only(
+                          //               top : screenHeight * 0.01,
+                          //               bottom : screenHeight * 0.01,
+                          //               left : screenWidth * 0.04,
+                          //               right : screenWidth * 0.04,
+                          //           ),
+                          //           child: prizeIcons[items.indexOf(it)],
+                          //         ),
+                          //         SizedBox(
+                          //           height: screenHeight * 0.01,
+                          //         ),
+                          //         Text(it, style: TextStyle(color: Colors.white, fontSize: 12),),
+                          //         SizedBox(
+                          //           height: screenHeight * 0.02,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ))),
                         ],
                       ),
                     ),
@@ -194,7 +422,8 @@ class _ExamplePageState extends State<ExamplePage> {
                           // shape: StadiumBorder(),
                           onPressed: () {
                             setState(() {
-                              selectedItem = Random().nextInt(items.length);
+                              // selectedItem = Random().nextInt(items.length);
+                              selectedItem = 4;
                               selected.add(selectedItem);
                               isResultVisible = false;
                             });
@@ -215,17 +444,14 @@ class _ExamplePageState extends State<ExamplePage> {
                       height: 40,
                       child: Visibility(
                           visible: isResultVisible,
-                          child: Text(items[selectedItem].toString())),
+                          child: Text(items[selectedItem].toString(), style: TextStyle(color: Colors.white, fontSize: 16),),),
                     ),
                     Container(
                       height: 40,
                       child: Visibility(
                         visible: isResultVisible,
                         child: Text("${prizeDescriptions[selectedItem]}",
-                            style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600)),
+                            style: TextStyle(color: Colors.white, fontSize: 24),),
                       ),
                     )
                   ],
